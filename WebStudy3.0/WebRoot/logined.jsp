@@ -1,4 +1,5 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" import="com.opensymphony.xwork2.ActionContext" pageEncoding="UTF-8"%>
+	
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -32,9 +33,16 @@
 
 </head>
 
-
-
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+	<%
+		ActionContext actionContext = ActionContext.getContext();
+		Map sess = actionContext.getSession();
+		String str="null";   
+		if(sess.get("current_name")!=null){
+			str=sess.get("current_name").toString();
+		}
+		System.out.println(str);		
+	%>
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
@@ -55,79 +63,42 @@
 			<ul class="nav navbar-nav">
 				<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
 				<li class="hidden"><a href="#page-top"></a></li>
-				<li ><a href="#" id="login" class="tdmyy" style="color:#fff">登录</a>
+				<li><a class="" href="#" >HI，<%=str%>欢迎您，登录成功！</a>
 				</li>
-				<li><a href="#" id="register" class="tdmyy">注册</a>
+				<li><a class="" href="index.jsp">注销</a>
 				</li>
-				<li><a href="#contact" class="tdmyy">联系</a>
+				<li><a class="page-scroll" href="demo.html">联系</a>
 				</li>
 			</ul>
 		</div>
 	</div>
 	</nav>
 
-	<!-- 登录浮动层 -->
-	<div id="LoginBox">
-	<form id="login" action="login" method="post" >
-		<div class="row1">
-			欢迎登录<a href="javascript:void(0)" title="关闭窗口" class="close_btn"
-				id="closeBtn">×</a>
-		</div>
-		<div class="row" style="color:black;">
-			用户名： <span class="inputBox"> <input type="text" name="ID" id="txtName"
-				placeholder="账号" /> </span> <a href="javascript:void(0)" title="提示"
-				class="warning" id="warn">*</a>
-		</div>
-		<div class="row" style="color:black;">
-			密&nbsp;&nbsp;&nbsp;&nbsp;码： <span class="inputBox"> <input
-				type="password" name="psw" id="txtPwd" placeholder="密码" /> </span> <a
-				href="javascript:void(0)" title="提示" class="warning" id="warn2">*</a>
-		</div>
-		<div class="row2" style="padding-left:100px;color:black;">
-		    <input type="radio" name="identity" value="user" checked="checked" /> 
-			<span>学生</span>&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="radio" name="identity" value="admin" /> 
-			<span>管理员</span>
-		</div>
-		<div>
-			<input id="loginbtn" type="submit" value="登    录"/>
-		</div>
-	</form>
-	</div>
-
 
 	<!-- 注册浮动层 -->
-	<div id="RegisterBox">
-	<form id="register" action="register" method="post" >
+		<div id="RegisterBox">
 		<div class="row1">
 			注册新用户<a href="javascript:void(0)" title="关闭窗口" class="close_btn"
 				id="closeBtn">×</a>
 		</div>
-		<div class="row" style="color:black;">
+		<div class="row2" style="color:black;">
 			&nbsp;用&nbsp;户&nbsp;名&nbsp;： <span class="inputBox"> <input
-				type="text" name="ID" id="txtName" placeholder="账号" /> </span> <a
+				type="text" id="txtName" placeholder="账号/邮箱" /> </span> <a
 				href="javascript:void(0)" title="提示" class="warning" id="warn3">*</a>
 		</div>
-		<div class="row" style="color:black;">
-			设置密码： <span class="inputBox"> <input type="password" name="psw" id="txtPwd"
+		<div class="row2" style="color:black;">
+			设置密码： <span class="inputBox"> <input type="text" id="txtPwd"
 				placeholder="密码" /> </span> <a href="javascript:void(0)" title="提示"
 				class="warning" id="warn4">*</a>
 		</div>
-		<div class="row" style="color:black;">
-			确认密码： <span class="inputBox"> <input type="password" name="rePwd" id="rePwd"
+		<div class="row2" style="color:black;">
+			确认密码： <span class="inputBox"> <input type="text" id="rePwd"
 				placeholder="确认密码" /> </span> <a href="javascript:void(0)" title="提示"
 				class="warning" id="warn5">*</a>
-		</div>
-		<div class="row2" style="padding-left:100px;color:black;">
-		    <input type="radio" name="identity" value="学生" checked="checked" /> 
-			<span>学生</span>&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="radio" name="identity" value="教师" /> 
-			<span>老师</span>
 		</div>
 		<div>
 			<input id="registerbtn" type="submit" value="注      册"/>
 		</div>
-	</form>
 	</div>
 
 

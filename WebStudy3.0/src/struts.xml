@@ -1,0 +1,26 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<constant name="struts.multipart.maxSize" value="10240000"></constant>
+	<package name="com.studysystem.action"  namespace="/" extends="struts-default">
+
+		<action name="login" class="com.studysystem.action.loginAction" method="login">
+			<result name="student_success">/logined.jsp</result>
+			<result name="teacher_success">/logined.jsp</result>
+			<result name="admin_success">/admin.jsp</result>
+			<result name="login_fail">/index.jsp</result>
+		</action>
+		
+		<action name="register" class="com.studysystem.action.registerAction" method="register">
+			<result name="register_success">/success.jsp</result>
+			<result name="register_fail">/fail.jsp</result>
+		</action>
+		
+	</package>
+</struts>  
+
+
+
+
