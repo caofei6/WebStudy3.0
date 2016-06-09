@@ -145,7 +145,7 @@ public class jdbcDao {
 		con = get_Connection();
 		PreparedStatement pre = null;
 		try {
-			pre = con.prepareStatement("insert into user(userID, userPsw, identity)values(?, ?, ?)");
+			pre = con.prepareStatement("insert into user(userID, userPsw, userIdentity)values(?, ?, ?)");
 			pre.setString(1, ID);
 			pre.setString(2, password);
 			pre.setString(3, identity);
