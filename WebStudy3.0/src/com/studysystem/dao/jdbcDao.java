@@ -141,6 +141,24 @@ public class jdbcDao {
 		return null;	
 	}
 	
+	public String select_ID(String name){            //查询ID
+		con = get_Connection();
+		PreparedStatement pre = null;
+		String str = null;
+		try{
+			pre = con.prepareStatement("select userID from user where userName = ?");		
+			pre.setString(1, name);
+			ResultSet res = pre.executeQuery();
+			while(res.next()){
+				str = res.getString(1);		
+			}
+			return str;
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return null;	
+	}
+	
 	public boolean Register(String ID, String password, String identity){
 		con = get_Connection();
 		PreparedStatement pre = null;
@@ -184,14 +202,40 @@ public class jdbcDao {
 		}
 		return null;	
 	}
+	
+	public boolean delate(String id, String table, String identity){
+		con = get_Connection();
+		PreparedStatement pre = null;
+		try{
+			if(table.equals("journal")){
+				pre = con.prepareStatement("delete from journal where dailyID = ?");
+				pre.setString(1, id);
+				pre.executeUpdate();
+				return true;
+			}else if(table.equals("user")){
+				pre = con.prepareStatement("delete from user where userIdentity=? and userID = ?");
+				pre.setString(1, identity);				
+				pre.setString(2, id);
+				pre.executeUpdate();
+				return true;
+			}
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
 	public ResultSet select(String table, String ID1, String ID2){
 		con = get_Connection();
 		PreparedStatement pre = null;
 		ResultSet rs;
 		try{
-			if(table.equals("user")){
-				pre = con.prepareStatement("select * from user where userID = ?");
-				pre.setString(1, ID1);
+			if(table.equals("user") && ID1.equals("学生")){
+				pre = con.prepareStatement("select * from user where userIdentity = '学生'");
+				rs = pre.executeQuery();
+				return rs;
+			}else if(table.equals("user") && ID1.equals("教师")){
+				pre = con.prepareStatement("select * from user where userIdentity = '教师'");
 				rs = pre.executeQuery();
 				return rs;
 			}else if(table.equals("admin")){
@@ -212,11 +256,14 @@ public class jdbcDao {
 				rs = pre.executeQuery();
 				return rs;
 			}else if(table.equals("journal")){
-				pre = con.prepareStatement("select * from journal where dailyID = ? and userID = ?");
+				pre = con.prepareStatement("select * from journal where userID = ?");
 				pre.setString(1, ID1);
-				pre.setString(2, ID2);
 				rs = pre.executeQuery();
 				return rs;
+			}else if(table.equals("journal_all")){
+				pre = con.prepareStatement("select * from journal");
+				rs = pre.executeQuery();
+				return rs;		
 			}else if(table.equals("question")){
 				pre = con.prepareStatement("select * from question where quelID = ?");
 				pre.setString(1, ID1);
@@ -235,4 +282,30 @@ public class jdbcDao {
 		return null;
 	}
 	
+	public String countpeople(String identity){
+		con = get_Connection();
+		String str = null;
+		PreparedStatement pre = null;
+		ResultSet rs;
+		try {
+			if(identity == ""){    //查询总数
+				pre = con.prepareStatement("select COUNT(*) from user");
+				rs = pre.executeQuery();
+				}else{   //查询用户总数
+					pre = con.prepareStatement("select count(*) from user where userIdentity = ?");
+					pre.setString(1, identity);
+					rs = pre.executeQuery();
+					}
+			while(rs.next()){
+				str = rs.getString(1);
+			}
+			Close();
+			pre.close();
+			rs.close();
+			return str;			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}	
 }

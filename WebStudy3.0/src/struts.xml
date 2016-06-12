@@ -7,8 +7,8 @@
 	<package name="com.studysystem.action"  namespace="/" extends="struts-default">
 
 		<action name="login" class="com.studysystem.action.loginAction" method="login">
-			<result name="student_success">/logined.jsp</result>
-			<result name="teacher_success">/logined.jsp</result>
+			<result name="student_success">/student.jsp</result>
+			<result name="teacher_success">/teacher.jsp</result>
 			<result name="admin_success">/admin.jsp</result>
 			<result name="login_fail">/index.jsp</result>
 		</action>
@@ -16,6 +16,30 @@
 		<action name="register" class="com.studysystem.action.registerAction" method="register">
 			<result name="register_success">/success.jsp</result>
 			<result name="register_fail">/fail.jsp</result>
+		</action>
+		
+		<action name="journal" class="com.studysystem.action.manageJournalAction" method="managejournal">
+			<result name="success">/admin_journal.jsp</result>
+		</action>
+		
+		<action name="delete_journal" class="com.studysystem.action.deleteJournalAction" method="delatejournal">
+			<result name="success" type="redirectAction">journal</result>
+		</action>
+		
+		<action name="student" class="com.studysystem.action.manageStudentAction" method="managestudent">
+			<result name="success">/admin_student.jsp</result>
+		</action>
+		
+		<action name="teacher" class="com.studysystem.action.manageTeacherAction" method="manageteacher">
+			<result name="success">/admin_teacher.jsp</result>
+		</action>
+
+		<action name="delete_student" class="com.studysystem.action.deleteStudentAction" method="deletestudent">
+			<result name="success" type="redirectAction">student</result>
+		</action>
+
+		<action name="delete_teacher" class="com.studysystem.action.deleteTeacherAction" method="deleteteacher">
+			<result name="success" type="redirectAction">teacher</result>
 		</action>
 		
 	</package>

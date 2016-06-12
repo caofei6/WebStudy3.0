@@ -85,7 +85,7 @@
 		</div>
 		<div class="row2" style="padding-left:100px;color:black;">
 		    <input type="radio" name="identity" value="user" checked="checked" /> 
-			<span>学生</span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<span>用户</span>&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="radio" name="identity" value="admin" /> 
 			<span>管理员</span>
 		</div>

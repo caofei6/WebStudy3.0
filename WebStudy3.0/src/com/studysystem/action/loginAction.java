@@ -37,7 +37,10 @@ public class loginAction extends ActionSupport{
 	
 	public String login(){
 		jdbcDao dao = new jdbcDao();
-		String name = null;       
+		String name = "无名小卒";
+		String user_number = "0";
+		String students_number = "0";
+		String teachers_number = "0";
 		ActionContext actionContext = ActionContext.getContext();
 		Map<String, Object> session = actionContext.getSession();
 		
@@ -56,8 +59,14 @@ public class loginAction extends ActionSupport{
 			
 		}else if(identity.equals("admin") && dao.Login(identity, ID, psw)){
 			name = dao.select_name(ID, identity);
+			user_number = dao.countpeople("");
+			students_number = dao.countpeople("学生");
+			teachers_number = dao.countpeople("教师");
 			session.put("current_name", name);
-			System.out.println("管理员： " + name + "账号, 密码匹配正确，成功登录");
+			session.put("user_number", user_number);
+			session.put("students_number", students_number);
+			session.put("teachers_number", teachers_number);	
+			System.out.println("管理员： " + name + ", 成功登录");
 			return "admin_success";		
 		}
 		return "login_fail";
