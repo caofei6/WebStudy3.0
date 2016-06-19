@@ -1,4 +1,7 @@
 <%@ page import="com.studysystem.dao.jdbcDao"%>
+<%@ page import="com.google.gson.JsonObject"%>
+<%@ page import="com.google.gson.JsonArray"%>
+<%@ page import="com.google.gson.JsonParser"%>
 <%@ page language="java" import="java.util.*" import="com.opensymphony.xwork2.ActionContext" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
@@ -16,54 +19,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 
 <body>
-	<%
-	    jdbcDao dao = new jdbcDao();
+	<%   
 		ActionContext actionContext = ActionContext.getContext();
 		Map sess = actionContext.getSession();
-		String name = null; 
-		String id = null;
-		String quest_number = null;  //题目总数
-		String x_number = null;      //选择题数
-		String t_number = null;      //填空题数
-		String j_number = null;      //简答题数
-		String k_number = null;      //开放题数
-		String p_number = null;      //判断题数
-		String q_number = null;      //其他 
+		String name=null;
 		if(sess.get("current_name")!=null){
 			name = sess.get("current_name").toString();
-			id = dao.select_ID(name);
 		}
-		if(sess.get("quest_number")!=null){
-        	quest_number = sess.get("quest_number").toString();
-        }
-        if(sess.get("x_number")!=null){
-			x_number = sess.get("x_number").toString();
-		}
-		if(sess.get("t_number")!=null){
-			t_number = sess.get("t_number").toString();
-		}
-		if(sess.get("j_number")!=null){
-			j_number = sess.get("j_number").toString();
-		}
-		if(sess.get("k_number")!=null){
-			k_number = sess.get("k_number").toString();
-		}
-		if(sess.get("p_number")!=null){
-			p_number = sess.get("p_number").toString();
-		}
-		if(sess.get("q_number")!=null){
-			q_number = sess.get("q_number").toString();
-		}
-		System.out.println("当前用户姓名："+name);		
-		System.out.println("当前用户id："+id);	
-		System.out.println("题目总数："+quest_number);	
-		System.out.println("选择："+x_number);	
-		System.out.println("填空："+t_number);	
-		System.out.println("简答："+j_number);	
-		System.out.println("开放："+k_number);	
-		System.out.println("判断："+p_number);	
-		System.out.println("其他："+q_number);	
-			
+		System.out.println("当前用户"+name);
 	%>
 <div class="top"></div>
 <div id="header">
@@ -123,41 +86,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<ul>
 							<li><a herf="admin.jsp"><img src="images/home.png"></a></li>
 								<li style="margin-left:25px;">您当前的位置：</li>
-								<li><a href="student.jsp">学生界面</a></li>
+								<li><a href="student.jsp">我爱答题</a></li>
 								<li>></li>
-								<li><a href="student.jsp">欢迎您！</a></li>
+								<li><a href="student.jsp">简答题</a></li>
 						</ul>
 			</div>
 
-			<div class="main"><br><br>
-				<div style="position:absolute;top:30%;left:30%;">
-					<table style="text-align:center" border="3" bordercolor="#555555" width="800" cellpadding="0" cellpadding="0">
-						<tr>
-							<th bgcolor="#CCFFFF" width="10%">题目总数</th>
-							<th bgcolor="#CCFFFF" width="10%">选择题</th>
-							<th bgcolor="#CCFFFF" width="10%">填空题</th>
-							<th bgcolor="#CCFFFF" width="10%">简答题</th>
-							<th bgcolor="#CCFFFF" width="10%">开放题</th>
-							<th bgcolor="#CCFFFF" width="20%">判断题</th>
-							<th bgcolor="#CCFFFF" width="30%">其他</th>
-							
-						</tr>
-						<tr>
-							<td bgcolor="#FFFFCC"><%=quest_number%></td>
-							<td bgcolor="#FFFFCC"><%=x_number %></td>
-							<td bgcolor="#FFFFCC"><%=t_number%></td>
-							<td bgcolor="#FFFFCC"><%=j_number %></td>
-							<td bgcolor="#FFFFCC"><%=k_number %></td>
-							<td bgcolor="#FFFFCC"><%=p_number %></td>
-							<td bgcolor="#FFFFCC"><%=q_number %></td>
-						</tr>
-					</table>
-				</div>	
-			</div>		
-		</div>
+		<div class="main"><br><br>
+		<form method="post" action="question.action?type=j">
+			<input class="ppb" type="submit" value="提交" />
+		  <%
+				JsonParser parse = new JsonParser();
+				JsonArray array = parse.parse(sess.get("jquestion_list").toString()).getAsJsonArray();
+				
+				for(int i = 0; i < array.size(); i++){		
+					JsonObject jo = array.get(i).getAsJsonObject();
+  
+		   %>
+			<p class="pph"><%=jo.get("queID").toString().replace("\"","") %>、
+			<%=jo.get("queType").toString().replace("\"", "")  %>:&nbsp;&nbsp;&nbsp;&nbsp;
+			 <%=jo.get("question").toString().replace("\"", "").replace("\\r","\r").replace("\\n", "\n") %> 
+             <p><br>
+             <textarea name="key" rows="10" cols="70" style="margin:0 32%;font-size: 15px;" autofocus="autofocus"></textarea>  
 
-		
-</div>
+			 <hr>
+		<%
+			}
+		%>
+		</form>
+      </div>	
+    </div>		
+ </div>
+
 <div class="bottom"></div>
 <div id="footer"><p>Copyright © My Study System 2016</p></div>
 <script>navList(12);</script>

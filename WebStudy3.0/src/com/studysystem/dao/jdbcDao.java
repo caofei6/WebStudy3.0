@@ -113,6 +113,21 @@ public class jdbcDao {
 		return null;	
 	}
 	
+	public ResultSet select_question(String type){
+		con = get_Connection();
+		PreparedStatement pre = null;
+		try{
+			pre = con.prepareStatement("select * from question where queType = ?");
+			pre.setString(1, type);
+			ResultSet res = pre.executeQuery();
+			return res;
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
 	public String select_name(String ID, String table_name){            //查询登录者姓名
 		con = get_Connection();
 		PreparedStatement pre = null;
@@ -139,6 +154,34 @@ public class jdbcDao {
 			e.printStackTrace();
 		}
 		return null;	
+	}
+	
+	public String count_question(String type){	
+		con = get_Connection();
+		PreparedStatement pre = null;
+		String str = null;
+		ResultSet rs;
+		try{
+			if(type.equals("")){
+				pre =con.prepareStatement("select count(*) from question");
+				rs = pre.executeQuery();
+				while(rs.next()){
+					str = rs.getString(1);
+				}
+				return str;
+			}else{
+				pre =con.prepareStatement("select count(*) from question where queType = ?");
+				pre.setString(1, type);
+				rs = pre.executeQuery();
+				while(rs.next()){
+					str = rs.getString(1);
+				}
+				return str;			
+			}			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public String select_ID(String name){            //查询ID
@@ -265,7 +308,7 @@ public class jdbcDao {
 				rs = pre.executeQuery();
 				return rs;		
 			}else if(table.equals("question")){
-				pre = con.prepareStatement("select * from question where quelID = ?");
+				pre = con.prepareStatement("select queKey from question where queType = ?");
 				pre.setString(1, ID1);
 				rs = pre.executeQuery();
 				return rs;
@@ -291,7 +334,7 @@ public class jdbcDao {
 			if(identity == ""){    //查询总数
 				pre = con.prepareStatement("select COUNT(*) from user");
 				rs = pre.executeQuery();
-				}else{   //查询用户总数
+				}else{               //查询用户总数
 					pre = con.prepareStatement("select count(*) from user where userIdentity = ?");
 					pre.setString(1, identity);
 					rs = pre.executeQuery();

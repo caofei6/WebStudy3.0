@@ -1,4 +1,8 @@
-<%@page import="com.studysystem.dao.jdbcDao"%>
+<%@page import="com.studysystem.model.journal"%>
+<%@page import="com.google.gson.JsonObject"%>
+<%@page import="com.google.gson.JsonArray"%>
+<%@page import="com.google.gson.JsonParser"%>
+<%@page import="com.studysystem.model.userModel"%>
 <%@ page language="java" import="java.util.*" import="com.opensymphony.xwork2.ActionContext" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
@@ -17,41 +21,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <body>
 	<%
-	    jdbcDao dao = new jdbcDao();
-		ActionContext actionContext = ActionContext.getContext();
-		Map sess = actionContext.getSession();
-		String name = null; 
-		String id = null;
-		String user_number = null;
-		String students_number = null;
-		String teachers_number = null;  
+	    List<journal> list = new LinkedList<journal>(); 
+	    
+		ActionContext actionContext1 = ActionContext.getContext();
+		Map sess = actionContext1.getSession();
+		String name=null;
 		if(sess.get("current_name")!=null){
 			name = sess.get("current_name").toString();
-			id = dao.select_ID(name);
 		}
-		if(sess.get("user_number")!=null){
-			user_number = sess.get("user_number").toString();
-		}
-		if(sess.get("students_number")!=null){
-			students_number = sess.get("students_number").toString();
-		}
-		if(sess.get("teachers_number")!=null){
-			teachers_number = sess.get("teachers_number").toString();
-		}
-		System.out.println("当前用户姓名："+name);		
-		System.out.println("当前用户id："+id);	
-		System.out.println("用户总数："+user_number);	
-		System.out.println("学生总数："+students_number);	
-		System.out.println("老师总数："+teachers_number);	
-			
+		System.out.println("当前用户"+name);
 	%>
 <div class="top"></div>
 <div id="header">
 	<div class="logo">Web Study 后台管理系统</div>
 	<div class="navigation">
 		<ul>
-		 	<li>尊敬的管理员</li>
-			<li><a href=""><%=name %> 欢迎您！</a></li>
+		 	<li>欢迎您！</li>
+			<li><a href=""><%=name%></a></li>
 			<li><a href="update_password.jsp">修改密码</a></li>
 			<li><a href="settings.jsp">设置</a></li>
 			<li><a href="index.jsp">退出</a></li>
@@ -66,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="list-item none">
             <a href="admin.jsp">学生人数</a>
             <a href="admin.jsp">教师人数</a>
-            <a href="journal.action?ID=<%=id%>">日志内容</a>
+            <a href="admin_journal.jsp">日志内容</a>
           </div>
         </li>
         <li>
@@ -123,6 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
   </ul>
 		</div>
+
 		<div class="m-right">
 			<div class="right-nav">
 					<ul>
@@ -130,30 +117,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<li style="margin-left:25px;">您当前的位置：</li>
 								<li><a href="admin.jsp">系统信息</a></li>
 								<li>></li>
-								<li><a href="admin.jsp">最新信息</a></li>
+								<li><a href="admin_journal.jsp">日志内容</a></li>
 						</ul>
 			</div>
-			<center>
-			<div class="main"><br><br>
-				<h1>用户数目统计表格：</h1>
-				<br><br>
-				<table border="3" bordercolor="#555555" width="600" height="200" cellpadding="0" cellpadding="0">
-					<tr>
-						<td class="td1" bgcolor="#FFCCCC" width=40%>用户总数</td>
-						<td class="td1" bgcolor="#CCFFFF"><%=user_number %></td>
-					</tr>
-					<tr>
-						<td class="td1" bgcolor="#CCFFCC">学生人数</td>
-						<td class="td1" bgcolor="#FFFFCC"><%=students_number %></td>
-					</tr>
-					<tr>
-						<td class="td1" bgcolor="#CCFFCC">教师人数</td>
-						<td class="td1" bgcolor="#FFFFCC"><%=teachers_number %></td>
-					</tr>
-				</table>
-			</div>		
-		</div>
-		</center>
+		<div class="main"><br><br>
+		  <%
+				JsonParser parse = new JsonParser();
+				JsonArray array = parse.parse(sess.get("journal_list").toString()).getAsJsonArray();
+				
+				for(int i = 0; i < array.size(); i++){		
+					JsonObject jo = array.get(i).getAsJsonObject();
+					System.out.println(jo.toString());
+  
+		   %>
+			<p class="pph"><%=jo.get("dailyID" + i).toString().replace("\"","") %>:&nbsp;&nbsp;&nbsp;&nbsp;
+			 <%=jo.get("dailyHead" + i).toString().replace("\"","") %> 
+             <span><%=jo.get("dailyDate" + i).toString().replace("\"", "")  %></span><p>
+             <textarea rows="10" cols="100" style="margin:0 22%;font-size: 15px;" autofocus="autofocus" readonly><%=jo.get("daily" + i).toString().replace("\\n","\n").replace("\\r", "\r").replace("\"", "  ") %></textarea>  
+             <form method="post" action="delete_journal.action?id=<%=jo.get("dailyID" + i).toString().replace("\"","")%>">
+				<input class="ppb" type="submit" value="删除" />
+			 </form>
+			 <hr>
+		<%
+			}
+		%>
+
+      </div>	
+      </div>
 		
 </div>
 <div class="bottom"></div>

@@ -138,7 +138,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<h1 class="brand-heading">Welcome Home</h1>
+					<h1 class="brand-heading">学 + (?) = 会</h1>
 					<p class="intro-text">
 						Work Hard <br> you make some progress.
 					</p>

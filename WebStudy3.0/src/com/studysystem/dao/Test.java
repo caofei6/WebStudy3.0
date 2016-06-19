@@ -12,15 +12,17 @@ public class Test {
 
 	public static void main(String[] args) throws SQLException {
 		jdbcDao dao = new jdbcDao();
-		String str = null;
-		String ID = null;
-		ResultSet rs = dao.select("journal_all", "", "");
-		while(rs.next()){
-			for(int i = 1; i < 6; i++){
-				System.out.println(rs.getString(i));
+        String type = "t";
+		ResultSet res;
+		String realkey = null;
+		System.out.println("question type:" + type);
+		if(type.equals("t")){
+			res = dao.select("question", "Ìî¿ÕÌâ", "");
+			while(res.next()){
+				realkey = res.getString(1);
+				System.out.println(realkey);
 			}
 		}
-
 	}
 
 }

@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Student page</title>
+<title>Admin page</title>
 <link type="text/css" rel="stylesheet" href="css/style.css" />
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/menu.js"></script>
@@ -67,11 +67,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	%>
 <div class="top"></div>
 <div id="header">
-	<div class="logo">Web Study 学生界面</div>
+	<div class="logo">Web Study 教师界面</div>
 	<div class="navigation">
 		<ul>
-		 	<li>欢迎您！</li>
-			<li><a href=""><%=name %></a></li>
+		 	<li>尊敬的</li>
+			<li><a href=""><%=name %>老师欢迎您！</a></li>
 			<li><a href="update_password.jsp">修改密码</a></li>
 			<li><a href="settings.jsp">设置</a></li>
 			<li><a href="index.jsp">退出</a></li>
@@ -82,33 +82,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="left_menu">
 	  <ul id="nav_dot">
       <li>
-          <h4 class="M1"><span></span>我爱答题</h4>
+          <h4 class="M1"><span></span>我要出题</h4>
           <div class="list-item none">
-            <a href="x.action">选择题</a>
-            <a href="t.action">填空题</a>
-            <a href="j.action">简答题</a>
-            <a href="k.action">开放题</a>
+            <a href="xuanze.jsp">选择题</a>
+            <a href="tiankong.jsp">填空题</a>
+            <a href="">简单题</a>
+            <a href="">开发题</a>
             <a href="">判断题</a>
             <a href="">其他</a>
           </div>
         </li>
         <li>
-          <h4 class="M2"><span></span>我的日志</h4>
+          <h4 class="M2"><span></span>我的题库</h4>
           <div class="list-item none">
-            <a href=" ">查看日志</a>
-            <a href=''>发表日志</a>
+            <a href=''>查看题目</a>
+            <a href=''>修改题目</a>
             <a href=''>备选按钮</a>        
            </div>
         </li>
-        <li>
-          <h4 class="M3"><span></span>评价留言</h4>
-          <div class="list-item none">
-            <a href="teacher.action">查看信息</a>
-            <a href=''>备选按钮</a>
-            <a href=''>备选按钮</a>
-          </div>
-        </li>
-				<li>
+			<li>
           <h4 class="M4"><span></span>信息设置</h4>
           <div class="list-item none">
             <a href=''>修改信息</a>
@@ -116,42 +108,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <a href=''>备选按钮</a>
           </div>
         </li>
-  </ul>
+    </ul>
 		</div>
 		<div class="m-right">
 			<div class="right-nav">
 					<ul>
 							<li><a herf="admin.jsp"><img src="images/home.png"></a></li>
 								<li style="margin-left:25px;">您当前的位置：</li>
-								<li><a href="student.jsp">学生界面</a></li>
+								<li><a href="teacher.jsp">教师界面</a></li>
 								<li>></li>
-								<li><a href="student.jsp">欢迎您！</a></li>
+								<li><a href="teacher.jsp">欢迎您！</a></li>
 						</ul>
 			</div>
 
 			<div class="main"><br><br>
-				<div style="position:absolute;top:30%;left:30%;">
-					<table style="text-align:center" border="3" bordercolor="#555555" width="800" cellpadding="0" cellpadding="0">
-						<tr>
-							<th bgcolor="#CCFFFF" width="10%">题目总数</th>
-							<th bgcolor="#CCFFFF" width="10%">选择题</th>
-							<th bgcolor="#CCFFFF" width="10%">填空题</th>
-							<th bgcolor="#CCFFFF" width="10%">简答题</th>
-							<th bgcolor="#CCFFFF" width="10%">开放题</th>
-							<th bgcolor="#CCFFFF" width="20%">判断题</th>
-							<th bgcolor="#CCFFFF" width="30%">其他</th>
-							
-						</tr>
-						<tr>
-							<td bgcolor="#FFFFCC"><%=quest_number%></td>
-							<td bgcolor="#FFFFCC"><%=x_number %></td>
-							<td bgcolor="#FFFFCC"><%=t_number%></td>
-							<td bgcolor="#FFFFCC"><%=j_number %></td>
-							<td bgcolor="#FFFFCC"><%=k_number %></td>
-							<td bgcolor="#FFFFCC"><%=p_number %></td>
-							<td bgcolor="#FFFFCC"><%=q_number %></td>
-						</tr>
-					</table>
+				<div style="position:absolute;top:200px;left:700px;">
+					 <ol>
+                <li>
+                    <div class="form-group chuti">
+                        <label>
+                        1.     <input type="text" placeholder="请输入题目..."></label><br><br>
+                        <div class="radio">
+                            A&nbsp;
+                            <label><input type="text" placeholder="请输入A选项内容..."></label>
+                        </div>
+                        <br/>
+                        <div class="radio">
+                            B&nbsp;
+                            <label><input type="text" placeholder="请输入B选项内容..."></label>
+                        </div>
+                        <br/>
+                        <div class="radio">
+                            C&nbsp;
+                            <label><input type="text" placeholder="请输入C选项内容..."></label>
+                        </div>
+                        <br/>
+                        <div class="radio">
+                            D&nbsp;
+                            <label><input type="text" placeholder="请输入D选项内容..."></label>
+                        </div>
+                    </div>
+                    <div class="answer">
+                        <br><label>请输入正确选项：<input type="text" placeholder="请输入正确选项..."></label>
+                    </div>
+                </li>
+            </ol>
 				</div>	
 			</div>		
 		</div>
