@@ -17,10 +17,10 @@ public class deleteJournalAction extends ActionSupport {
 	}
 
 	public String delatejournal() {
-		System.out.println("传过来的dailyID值:" + id);
+		System.out.println("????????dailyID?:" + id);
 		jdbcDao dao = new jdbcDao();
 		dao.delate(id, "journal", "");
-		System.out.println("删除成功");
+		System.out.println("??????");
 		return "success";
 
 	}

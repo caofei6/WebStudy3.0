@@ -17,10 +17,10 @@ public class deleteTeacherAction extends ActionSupport {
 	}
 
 	public String deleteteacher() {
-		System.out.println("´«¹ýÀ´µÄuserIDÖµ:" + id);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½userIDÖµ:" + id);
 		jdbcDao dao = new jdbcDao();
-		dao.delate(id, "user", "½ÌÊ¦");
-		System.out.println("É¾³ý³É¹¦");
+		dao.delate(id, "user", "ï¿½ï¿½Ê¦");
+		System.out.println("É¾ï¿½ï¿½ï¿½É¹ï¿½");
 		return "success";
 
 	}
